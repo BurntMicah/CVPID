@@ -35,8 +35,20 @@ void pwm(MailBox<PwmInfo> &pwm_in, State::type &state){
 		auto start = std::chrono::high_resolution_clock::now();
 #endif
 		// send pwm to controller board
-		setAngle(board, X_SERVO, in.x);
-		setAngle(board, Y_SERVO, in.y);
+		/*****
+		from the cameras prespective
+		3		4
+		
+		
+		2		1
+		will add defines later
+		*/////
+		double x=90*sin(in.x/360.0*6.283185);
+		double y=90*sin(in.y/360.0*6.283185);
+		setAngle(board, 4, (-x+y));
+		setAngle(board, 1, -(-x-y));
+		setAngle(board, 2, x-y);
+		setAngle(board, 3, -x-y);
 		
 #ifdef DEBUG
 		auto finish = std::chrono::high_resolution_clock::now();
